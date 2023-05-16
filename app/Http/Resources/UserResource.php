@@ -19,15 +19,21 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //var_dump($request);
         return [
+            '@context' => "http://schema.org/",
+            "@type" => "Person",
+            "jobTitle" => "Professor",
+            "url" => env('APP_URL')."/api/user/".$this->id,
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => is_null($this->name)?'':$this->name,
             'email' => $this->email,
-            'apellido1'=>$this->apellido1,
-            'apellido2'=>$this->apellido2,
-            'phone'=>$this->phone,
+            'apellido1'=>is_null($this->apellido1)?'':$this->apellido1,
+            'apellido2'=>is_null($this->apellido2)?'':$this->apellido2,
+            'telephone'=>is_null($this->phone)?'':$this->phone,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'avatar'=>$this->avatar
         ];
     }
 }
