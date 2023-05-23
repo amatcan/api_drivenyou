@@ -8,6 +8,9 @@ use App\Http\Resources\AutoescuelaCollection;
 use App\Models\Colaborador;
 use App\Models\Profesor;
 use App\Models\Autoescuela;
+use App\Models\Horario;
+use App\Models\HorarioColaborador;
+use App\Models\HorarioIndiceClase;
 use App\Models\Clase;
 use App\Models\ClaseAsignacion;
 use Illuminate\Http\JsonResponse;
@@ -15,21 +18,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-final class ColaboradoresController extends Controller
+final class HorariosController extends Controller
 {
-    final public function all()
+    final public function horariosColaborador($colaborador, $accion = null)
     {
-        $colaboradores = Colaborador::all();
-        $users = [];
-        //return $users->toJson(JSON_PRETTY_PRINT);
-        return new ColaboradorCollection($colaboradores);
-    }
+        $thorarios = (new Horario())->getTable(); 
+        $thorarioscolaborador = (new HorarioColaborador())->getTable();
+        $thorariosindiceclase = (new HorarioIndiceClase())->getTable();
 
-    final public function profesores()
-    {
-        $tcolab = (new Colaborador())->getTable();   
-        $tprof = (new Profesor())->getTable();   
-        $colaboradores = DB::table($tcolab)
+        $horarios = DB::table($thorarios)
             ->join($tprof, "$tcolab.id", '=', "$tprof.colaborador_id")
             ->select("$tcolab.*", "$tprof.description")
             ->get();

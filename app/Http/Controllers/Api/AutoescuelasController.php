@@ -15,29 +15,27 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-final class ColaboradoresController extends Controller
+final class AutoescuelasController extends Controller
 {
-    final public function all()
-    {
-        $colaboradores = Colaborador::all();
-        $users = [];
-        //return $users->toJson(JSON_PRETTY_PRINT);
-        return new ColaboradorCollection($colaboradores);
-    }
 
-    final public function profesores()
+    final public function autoescuelaColaborador($id)
     {
         $tcolab = (new Colaborador())->getTable();   
-        $tprof = (new Profesor())->getTable();   
-        $colaboradores = DB::table($tcolab)
-            ->join($tprof, "$tcolab.id", '=', "$tprof.colaborador_id")
-            ->select("$tcolab.*", "$tprof.description")
-            ->get();
-        return new ProfesorCollection($colaboradores);
+        $tauto = (new Autoescuela())->getTable();   
+        $autoescuela = DB::table($tauto)
+            ->join($tcolab, "$tcolab.id", '=', "$tauto.colaborador_id")
+            ->select("$tauto.*")
+            ->first();
+
+        if (!is_null($autoescuela)){            
+            $autoescuela = Autoescuela::find($autoescuela->id);
+        }            
+        return $autoescuela;
 
     }
     final public function infoColaborador($id){
         $colaborador = Colaborador::where("user_id",$id)->first();
+
         if (is_null($colaborador))
             return "{}";
         $autoescuela = null;
@@ -61,22 +59,5 @@ final class ColaboradoresController extends Controller
 
         return $colaborador;
     }
-    final public function autoescuelas()
-    {
-        $tcolab = (new Colaborador())->getTable();   
-        $autoesc = (new Autoescuela())->getTable();   
-        $autoescuelas = DB::table($tcolab)
-            ->join($autoesc, "$tcolab.id", '=', "$autoesc.colaborador_id")
-            ->select("$tcolab.*")
-            ->get();
-        return new ProfesorCollection($autoescuelas);
 
-    }
-
-    final public function clasesColaborador($id, $momento=null)
-    {
-        $clases = Clase::where("colaborador_id",$id)->get();
-        //return $users->toJson(JSON_PRETTY_PRINT);
-        return $clases;
-    }
 }

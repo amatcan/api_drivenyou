@@ -13,11 +13,11 @@ class UsersGroups extends Model
 	];
 
 	public $timestamps = true;
-	protected $table = 'users_groups';
+	protected $table = 'drivenyou_users_groups';
 
 	public function users()
 	{
-		return $this->belongsToMany(User::class, 'user_usersgroups');
+		return $this->belongsToMany(User::class, 'drivenyou_user_usersgroups');
 	}
 }
 

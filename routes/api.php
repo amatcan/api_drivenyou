@@ -47,6 +47,21 @@ Route::middleware('auth:sanctum')->group(function ()
         Route::get('',[App\Http\Controllers\Api\ColaboradoresController::class,'all'])->name('colaboradores.all');
         Route::get('/profesores',[App\Http\Controllers\Api\ColaboradoresController::class,'profesores'])->name('colaboradores.profesores');
         Route::get('/autoescuelas',[App\Http\Controllers\Api\ColaboradoresController::class,'autoescuelas'])->name('colaboradores.autoescuelas');
+        Route::get('/{id}',[App\Http\Controllers\Api\ColaboradoresController::class,'infoColaborador'])->name('colaborador.info');
+        Route::get('/{id}/clases/{momento?}',[App\Http\Controllers\Api\ColaboradoresController::class,'clasesColaborador'])->name('colaborador.clases');        
+    });
+
+    Route::prefix('/clases')->group(function(){
+        Route::get('/colaborador/{id}/{momento?}',[App\Http\Controllers\Api\ClasesController::class,'clasesColaborador'])->name('clases.colaborador');
+        Route::get('/alumno/{id}/{momento?}',[App\Http\Controllers\Api\ClasesController::class,'clasesAlumno'])->name('clases.alumno');
+    });
+
+    Route::prefix('/autoescuelas')->group(function(){
+        Route::get('/colaborador/{id}',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaColaborador'])->name('autoescuela.colaborador');
+    });
+
+    Route::prefix('/horarios')->group(function(){
+        Route::get('/colaborador/{colaborador}/{accion}?',[App\Http\Controllers\Api\HorariosController::class,'horariosColaborador'])->name('horarios.colaborador');
     });
 
 
