@@ -41,8 +41,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'is_colaborador',
+        'colaborador'
+    ];
+
     public function isAdministrator(){
         return ($this->profile_id == Profiles::ADMINISTRATOR);
+    }
+
+    public function getIsColaboradorAttribute() {
+        return !is_null(Colaborador::where("user_id", $this->id)->first());
+    }
+
+    public function getColaboradorAttribute(): Colaborador {
+        $colaborador = Colaborador::where("user_id", $this->id)->first();
+        if (is_null($colaborador))
+            $colaborador = new Colaborador();
+        $colaborador->firma = null;
+        return $colaborador;
     }
 
     public function thumb()

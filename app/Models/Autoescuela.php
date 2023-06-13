@@ -23,6 +23,8 @@ class Autoescuela extends Model
     public $timestamps = true;
     protected $table = 'drivenyou_autoescuelas';
     public function getColaboradorAttribute(): Colaborador {
-        return Colaborador::find($this->colaborador_id)->first();
+        $colaborador = Colaborador::find($this->colaborador_id)->first();
+        $colaborador->firma = null;
+        return $colaborador;
     }
 }

@@ -42,15 +42,15 @@ class Colaborador extends Model
     protected function getIsAutoescuelaAttribute() {
         return $this->isAutoescuela;
     }
-    /*protected function getDireccionpostalAttribute(): Direccion{
-
-        return null;
-    }*/
 
     public function getDireccionpostalAttribute(): Direccion {
+        if (is_null($this->direccionpostal_id ))
+            return new Direccion();
         return Direccion::find($this->direccionpostal_id)->first();
     }
     public function getDireccionfacturacionAttribute(): Direccion {
+        if (is_null($this->direccionfacturacion_id ))
+            return new Direccion();
         return Direccion::find($this->direccionfacturacion_id)->first();
     }
     

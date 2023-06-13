@@ -29,7 +29,9 @@ final class AutoescuelasController extends Controller
 
         if (!is_null($autoescuela)){            
             $autoescuela = Autoescuela::find($autoescuela->id);
-        }            
+        }  
+
+        $autoescuela->firma = null;         
         return $autoescuela;
 
     }
@@ -56,7 +58,7 @@ final class AutoescuelasController extends Controller
         } catch(Exception $e){
             $profesor = null;
         }
-
+        $colaborador->firma = null;
         return $colaborador;
     }
 

@@ -3,39 +3,57 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ColaboradorCollection;
+use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\ProfesorCollection;
 use App\Http\Resources\AutoescuelaCollection;
 use App\Models\Colaborador;
 use App\Models\Profesor;
 use App\Models\Autoescuela;
-use App\Models\Clase;
-use App\Models\ClaseAsignacion;
+use App\Models\Alumno;
+use App\Models\HorarioClase;
+use App\Models\Horario;
+use App\Models\AccionFormativaColaborador;
+use App\Models\AccionFormativa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-final class ColaboradoresController extends Controller
+final class AccionesFormativasController extends Controller
 {
-    final public function all()
-    {
-        $colaboradores = Colaborador::all();
-        $users = [];
-        //return $users->toJson(JSON_PRETTY_PRINT);
-        return new ColaboradorCollection($colaboradores);
+    static function getAlumnosFields(){
+        $tclase = (new Clase())->getTable(); 
+        $talumnos = (new Alumno())->getTable();
+        $thorariosclases = (new HorarioClase())->getTable();
+        $thorarios = (new Horario())->getTable();
+
+        return [
+            "$talumnos.*",
+            "$thorariosclases.asistencia",
+            "$thorariosclases.resultado",
+            "$thorarios.fecha_inicio",
+            "$thorarios.fecha_fin", 
+            "$thorarios.id as horario_id",
+            "$tclase.title",
+            "$tclase.duracion",
+        ];
     }
 
-    final public function profesores()
+    final public function accionesByColaborador($id)
     {
-        $tcolab = (new Colaborador())->getTable();   
-        $tprof = (new Profesor())->getTable();   
-        $colaboradores = DB::table($tcolab)
-            ->join($tprof, "$tcolab.id", '=', "$tprof.colaborador_id")
-            ->select("$tcolab.*", "$tprof.description")
+        $taccion = (new AccionFormativa())->getTable();   
+        $taccioncolaborador = (new AccionFormativaColaborador())->getTable();
+        $acciones = DB::table($taccion)
+            ->join($taccioncolaborador, "$taccion.id", '=', "$taccioncolaborador.accionformativa_id")            
+            ->select("$taccion.*")
+            ->where("$taccioncolaborador.colaborador_id","=",$id) 
             ->get();
-        return new ProfesorCollection($colaboradores);
+        return $acciones;
 
     }
+
+
+
     final public function infoColaborador($id){
         $colaborador = Colaborador::where("user_id",$id)->first();
         if (is_null($colaborador))
@@ -58,8 +76,6 @@ final class ColaboradoresController extends Controller
         } catch(Exception $e){
             $profesor = null;
         }
-        //Se borran las imágenes
-        $colaborador->firma = null;
 
         return $colaborador;
     }
@@ -81,15 +97,4 @@ final class ColaboradoresController extends Controller
         //return $users->toJson(JSON_PRETTY_PRINT);
         return $clases;
     }
-
-    final public function imageFirma($id)
-    {
-        $colaborador = Colaborador::find($id);
-        $img = base64_encode($colaborador->firma);    
-        // Return the image content with appropriate headers
-        return response($colaborador->firma)
-            ->header('Content-Type', "image/png")
-            ->header('Content-Disposition', 'inline');
-    }
-    
 }
