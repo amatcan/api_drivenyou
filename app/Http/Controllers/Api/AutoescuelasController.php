@@ -10,10 +10,12 @@ use App\Models\Profesor;
 use App\Models\Autoescuela;
 use App\Models\Clase;
 use App\Models\ClaseAsignacion;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 final class AutoescuelasController extends Controller
 {
@@ -60,6 +62,20 @@ final class AutoescuelasController extends Controller
         }
         $colaborador->firma = null;
         return $colaborador;
+    }
+
+    final public function autoescuelaProfesores($id) {
+        $autoescuela = Autoescuela::find($id);
+
+        if (!is_null($autoescuela)){            
+            $profesores = $autoescuela->getAllProfesores();
+            foreach($profesores as $profesor) {
+                $profesor->firma = null;
+            }
+            return $profesores;
+        } 
+        return [];
+
     }
 
 }

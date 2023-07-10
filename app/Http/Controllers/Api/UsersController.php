@@ -7,6 +7,7 @@ use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Models\UsersGroups;
 use App\Models\Alumno;
+use App\Models\ApiToken;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -47,6 +48,20 @@ final class UsersController extends Controller
 
         
         return $user;
+    }
+
+    final public function setToken($id, $token)
+    {
+        $usert = ApiToken::where('user_id',$id)->first();
+        if (is_null($usert)) {
+            $usert = new ApiToken();
+            $usert->user_id = $id;
+        }
+        $usert->token = $token;
+        $usert->save();
+
+        
+        return $usert;
     }
     
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Colaborador;
+use Illuminate\Support\Facades\DB;
 
 class Autoescuela extends Model
 {
@@ -26,5 +28,16 @@ class Autoescuela extends Model
         $colaborador = Colaborador::find($this->colaborador_id)->first();
         $colaborador->firma = null;
         return $colaborador;
+    }
+    public function getAllProfesores() {
+        $tcolab = (new Colaborador())->getTable();   
+        $tautocolab = (new AutoescuelaProfesor())->getTable();   
+        $colaboradores = DB::table($tcolab)
+            ->join($tautocolab, "$tcolab.id", '=', "$tautocolab.colaborador_id")
+            ->select("$tcolab.*")->get();
+        if (count($colaboradores) > 0)
+            return Colaborador::hydrate($colaboradores->all());
+        else    
+            return [];
     }
 }

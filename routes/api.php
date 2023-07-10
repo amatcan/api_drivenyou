@@ -31,7 +31,7 @@ Route::prefix('/clases')->group(function(){
 
 Route::middleware('auth:sanctum')->group(function () 
 {
-    Route::post('/auth/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::post('/auth/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);    
     Route::get('/auth/user', function (Request $request) {
         return $request->user();
     });
@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function ()
 
     Route::prefix('/user')->group(function(){
         //usuarios de un grupo
+        Route::post('/{id}/token/{token}', [App\Http\Controllers\Api\UsersController::class, 'setToken']);
         Route::get('/search/{key}',[App\Http\Controllers\Api\UsersController::class,'search'])->name('user.search');
         Route::get('/alumno/{key}',[App\Http\Controllers\Api\UsersController::class,'alumno'])->name('user.alumno');
     });
@@ -79,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function ()
 
     Route::prefix('/autoescuelas')->group(function(){
         Route::get('/colaborador/{id}',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaColaborador'])->name('autoescuela.colaborador');
+        Route::get('/{id}/profesores',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaProfesores'])->name('autoescuela.colaboradores');
     });
 
     Route::prefix('/horarios')->group(function(){
