@@ -81,11 +81,17 @@ Route::middleware('auth:sanctum')->group(function ()
     Route::prefix('/autoescuelas')->group(function(){
         Route::get('/colaborador/{id}',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaColaborador'])->name('autoescuela.colaborador');
         Route::get('/{id}/profesores',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaProfesores'])->name('autoescuela.colaboradores');
+        Route::get('/{id}/vehiculos',[App\Http\Controllers\Api\AutoescuelasController::class,'autoescuelaVehiculos'])->name('autoescuela.vehiculos');
     });
 
     Route::prefix('/horarios')->group(function(){
         Route::get('/colaborador/{colaborador}/alumnos/{accion?}',[App\Http\Controllers\Api\HorariosController::class,'horariosAlumnosByColaborador'])->name('horarios.horariosAlumnosByColaborador');
         Route::get('/colaborador/{colaborador}/{accion?}',[App\Http\Controllers\Api\HorariosController::class,'horariosColaborador'])->name('horarios.colaborador');        
+        
+    });
+
+    Route::prefix('/vehiculos')->group(function(){
+        Route::get('/marcas',[App\Http\Controllers\Api\VehiculosController::class,'allMarcas'])->name('vehiculos.marcas');
         
     });
 

@@ -40,4 +40,16 @@ class Autoescuela extends Model
         else    
             return [];
     }
+
+    public function getAllVehiculos() {
+        $tvehi = (new Vehiculo())->getTable();   
+        $tauto = (new Autoescuela())->getTable();   
+        $vehiculos = DB::table($tvehi)
+            ->join($tauto, "$tauto.id", '=', "$tvehi.autoescuela_id")
+            ->select("$tvehi.*")->get();
+        if (count($vehiculos) > 0)
+            return Vehiculo::hydrate($vehiculos->all());
+        else    
+            return [];
+    }
 }

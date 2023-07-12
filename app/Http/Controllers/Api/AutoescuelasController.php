@@ -77,5 +77,18 @@ final class AutoescuelasController extends Controller
         return [];
 
     }
+    final public function autoescuelaVehiculos($id) {
+        $autoescuela = Autoescuela::find($id);
+
+        if (!is_null($autoescuela)){            
+            $vehiculos = $autoescuela->getAllVehiculos();
+            foreach($vehiculos as $vehiculo) {
+                $vehiculo->imagen = null;
+            }
+            return $vehiculos;
+        } 
+        return [];
+
+    }
 
 }

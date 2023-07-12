@@ -21,13 +21,13 @@ class Colaborador extends Model
         'is_profesor',
         'is_autoescuela',
         'direccionpostal',
-        'direccionfacturacion'
+        'direccionfacturacion',
     ];
     protected $casts = [
         'is_profesor' => 'boolean',
         'is_autoescuela' => 'boolean',
         'direccionpostal' => 'object',
-        'direccionfacturacion' => 'object'
+        'direccionfacturacion' => 'object',
     ];    
 
     public $timestamps = true;
@@ -53,6 +53,7 @@ class Colaborador extends Model
             return new Direccion();
         return Direccion::find($this->direccionfacturacion_id)->first();
     }
+
     
    /* protected function getIsProfesorAttribute(): Attribute
     {
