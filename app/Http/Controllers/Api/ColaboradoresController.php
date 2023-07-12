@@ -85,7 +85,6 @@ final class ColaboradoresController extends Controller
     final public function imageFirma($id)
     {
         $colaborador = Colaborador::find($id);
-        $img = base64_encode($colaborador->firma);    
         // Return the image content with appropriate headers
         return response($colaborador->firma)
             ->header('Content-Type', "image/png")

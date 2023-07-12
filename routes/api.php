@@ -29,6 +29,10 @@ Route::prefix('/clases')->group(function(){
     Route::get('{id}/image/firma/{cual?}',[App\Http\Controllers\Api\ClasesController::class,'imageFirma'])->name('clases.image.firma');
 });
 
+Route::prefix('/vehiculos')->group(function(){
+    Route::get('{id}/image',[App\Http\Controllers\Api\VehiculosController::class,'imageVehiculo'])->name('vehiculos.image');
+});
+
 Route::middleware('auth:sanctum')->group(function () 
 {
     Route::post('/auth/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);    
@@ -92,7 +96,7 @@ Route::middleware('auth:sanctum')->group(function ()
 
     Route::prefix('/vehiculos')->group(function(){
         Route::get('/marcas',[App\Http\Controllers\Api\VehiculosController::class,'allMarcas'])->name('vehiculos.marcas');
-        
+        Route::get('/{id}',[App\Http\Controllers\Api\VehiculosController::class,'getVehiculo'])->name('vehiculos.vehiculo');        
     });
 
 
