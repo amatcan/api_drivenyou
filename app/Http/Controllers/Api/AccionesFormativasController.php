@@ -48,7 +48,7 @@ final class AccionesFormativasController extends Controller
             ->select("$taccion.*")
             ->where("$taccioncolaborador.colaborador_id","=",$id) 
             ->get();
-        return $acciones;
+        return AccionFormativa::hydrate($acciones->all());;
 
     }
 

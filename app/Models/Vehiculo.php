@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
@@ -16,11 +17,13 @@ class Vehiculo extends Model
 	];
     protected $appends = [
         'marca',
-        'modelo'
+        'modelo',
+        'imagenUrl'
     ];
     protected $casts = [
         'marca' => 'object',
         'modelo' => 'object',
+        'imagenUrl' => 'string'
     ];  
 
     protected $hidden = ['imagen'];
@@ -38,6 +41,10 @@ class Vehiculo extends Model
         if (is_null($this->modelo_id ))
             return new VehiculoModelo();
         return VehiculoModelo::find($this->modelo_id);
+    }
+
+    public function getImagenUrlAttribute():String {
+        return route('vehiculos.image', ['id' => $this->id]);
     }
 
 }

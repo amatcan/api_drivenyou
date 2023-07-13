@@ -16,10 +16,17 @@ class AccionFormativa extends Model
         "tipoaccion_id"
     ];
     protected $appends = [
+        'tipoaccion'
     ];
     protected $casts = [
+        'tipoaccion' => 'object'
     ];  
     public $timestamps = true;
     protected $table = 'drivenyou_accionesformativas';
+    public function getTipoAccionAttribute():TipoAccion{
+        if (is_null($this->tipoaccion_id ))
+            return new TipoAccion();
+        return TipoAccion::find($this->tipoaccion_id);
+    }
 
 }
