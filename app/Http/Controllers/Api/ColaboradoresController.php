@@ -90,5 +90,16 @@ final class ColaboradoresController extends Controller
             ->header('Content-Type', "image/png")
             ->header('Content-Disposition', 'inline');
     }
+
+    final public function colaboradorAvatar($id)
+    {
+        $colaborador = Colaborador::find($id);
+        $user = $colaborador->user();
+        if (!is_null($user)){
+            return $user->avatar();
+        }
+        return '';
+    }
+    
     
 }

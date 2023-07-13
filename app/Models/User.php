@@ -62,9 +62,14 @@ class User extends Authenticatable
         return $colaborador;
     }
 
-    public function thumb()
+    /*public function thumb()
     {
         return Imagenes::find($this->imagen_id);
+    }*/
+
+    public function avatar()
+    {
+        return $this->avatar;
     }
 
     public function isPremiumTipoPermiso ($idTipoPermiso)

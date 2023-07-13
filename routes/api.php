@@ -59,10 +59,12 @@ Route::middleware('auth:sanctum')->group(function ()
     Route::prefix('/colaboradores')->group(function(){
         //colaborador
         Route::get('',[App\Http\Controllers\Api\ColaboradoresController::class,'all'])->name('colaboradores.all');
+        Route::get('{id}/avatar',[App\Http\Controllers\Api\ColaboradoresController::class,'colaboradorAvatar'])->name('colaboradores.avatar');
         Route::get('/profesores',[App\Http\Controllers\Api\ColaboradoresController::class,'profesores'])->name('colaboradores.profesores');
         Route::get('/autoescuelas',[App\Http\Controllers\Api\ColaboradoresController::class,'autoescuelas'])->name('colaboradores.autoescuelas');        
         Route::get('/{id}',[App\Http\Controllers\Api\ColaboradoresController::class,'infoColaborador'])->name('colaborador.info');
         Route::get('/{id}/clases/{momento?}',[App\Http\Controllers\Api\ColaboradoresController::class,'clasesColaborador'])->name('colaborador.clases');                
+
     });
 
     Route::prefix('/clases')->group(function(){

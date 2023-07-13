@@ -54,6 +54,12 @@ class Colaborador extends Model
         return Direccion::find($this->direccionfacturacion_id)->first();
     }
 
+    public function user() {
+        if (is_null($this->user_id ))
+            return new User();
+        return User::find($this->user_id);
+    }
+
     
    /* protected function getIsProfesorAttribute(): Attribute
     {
