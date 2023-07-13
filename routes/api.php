@@ -98,6 +98,9 @@ Route::middleware('auth:sanctum')->group(function ()
 
     Route::prefix('/vehiculos')->group(function(){
         Route::get('/marcas',[App\Http\Controllers\Api\VehiculosController::class,'allMarcas'])->name('vehiculos.marcas');
+        Route::get('/marcas/autoescuela/{id}',[App\Http\Controllers\Api\VehiculosController::class,'allMarcasAutoescuela'])->name('vehiculos.marcas.autoescuela');
+        Route::get('/modelos',[App\Http\Controllers\Api\VehiculosController::class,'allModelos'])->name('vehiculos.modelos');
+        Route::get('/modelos/autoescuela/{id}',[App\Http\Controllers\Api\VehiculosController::class,'allModelosAutoescuela'])->name('vehiculos.modelos.autoescuela');
         Route::get('/{id}',[App\Http\Controllers\Api\VehiculosController::class,'getVehiculo'])->name('vehiculos.vehiculo');        
     });
 
